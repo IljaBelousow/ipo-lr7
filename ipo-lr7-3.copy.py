@@ -15,26 +15,42 @@ while brik < 1:
     
     user_input = int(input("Вы ввели: "))
     print("==================================")
-
+#выводит все значения
     if user_input == 1:
         for i in file:
-            print(i)
-
+            print(f"""
+            ID: {i["id"]}, 
+            Имя: {i["name"]},                       
+            Facture: {i["manufacturer"]}, 
+            Benzin: {i["is_petrol"]},    
+            v3: {i["tank_volume"]}
+            """)
+#выводит значение по ключу
     elif user_input == 2:
         id_input = input("Введите ключ: ")
         found = False
         for i in file:
-            if id_input in i.get("id", ""):  
-                print(i)
+            if id_input == i["id"]:  
+                print(f"""
+                ID: {i["id"]}, 
+                Имя: {i["name"]},                       
+                Facture: {i["manufacturer"]}, 
+                Benzin: {i["is_petrol"]},    
+                v3: {i["tank_volume"]}
+                """)
                 found = True
                 break
         if not found:
             print("Такой записи нет :(")
-
+#добавляет значение
     elif user_input == 3:
         add_input = input("Введите ключ для добавления: ")
-        if any(add_input == i.get("id") for i in file):  
-            print("Такой ключ уже есть")
+        found_2 = False
+        for i in file:
+            if i["id"] == add_input:
+                found_2 = True
+                print("Такой ключ уже есть")
+                break
         else:
             add_name_input = input("Введите название машины: ")
             add_creator_input = input("Введите название производителя: ")
@@ -43,25 +59,26 @@ while brik < 1:
 
             repository = {
                 "id": add_input,
-                "auto_name": {
-                    "name": add_name_input,
-                    "manufacturer": add_creator_input,
-                    "is_petrol": add_bool_input,
-                    "tank_volume": add_cub_input,
-                }
+                "name": add_name_input,
+                "manufacturer": add_creator_input,
+                "is_petrol": True if add_bool_input == "да" else False,
+                "tank_volume": add_cub_input,   
             }
             file.append(repository)
             with open("file.json", "w", encoding="utf-8") as b:
                 json.dump(file, b)  
-
+#удаляет по ключу
     elif user_input == 4:
-        del_input = input("Введите ключ для удаления: ")
+        del_input = int(input("Введите ключ для удаления: "))
+        found_3 = False
         try:
-            file.remove(next(i for i in file if del_input == i.get("id")))  
+            for i in file:
+                if del_input == i["id"]:
+                    file.remove(i)
             with open("file.json", "w", encoding="utf-8") as b:
                 json.dump(file, b)
         except StopIteration:
             print("Такой записи нет")
-
+#закрывает программу (цикл)
     elif user_input == 5:
         brik += 1
