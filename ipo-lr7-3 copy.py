@@ -15,7 +15,7 @@ while brik < 1:
     
     user_input = int(input("Вы ввели: "))
     print("==================================")
-
+#вывод информации по зна
     if user_input == 1:
         for i in file:
             print(i)
@@ -46,7 +46,7 @@ while brik < 1:
                 "auto_name": {
                     "name": add_name_input,
                     "manufacturer": add_creator_input,
-                    "is_petrol": add_bool_input,
+                    "is_petrol": True if add_bool_input == "да" else False,
                     "tank_volume": add_cub_input,
                 }
             }
